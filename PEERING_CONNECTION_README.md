@@ -2,6 +2,9 @@
 
 ### GOAL: Allow connection to a private RDS in one VPC from a different VPC.
 
+### Infrastructure
+> docker compose up
+Docker compose in ECS context creates an ELB along with multiple other resources. What we need to do is to configure the ELB to be peer compatabile with the RDS instance so that the database can be accessed.
 
 > 1) Create a VPC with CIDR Block 10.1.0.0/16 (VPC with RDS is 10.0.0.0/16)
 > 2) Create two subnets with CIDR Blocks 10.1.0.0/24 and 10.1.1.0/24
@@ -18,5 +21,7 @@
 > 1) Create a peering connection between your default VPC and the RDS's VPC. 
 > 2) Configure Route Tables to have routes pointing to the other VPC CIDR Block and the peering connection.
 > 3) Configure security group of RDS to accept all TCP from the IP CIDR Block of the VPC (10.1.0.0/16)
+
+
 
 
