@@ -14,7 +14,7 @@
 > 9) Configure security group of RDS to accept all TCP from the IP CIDR Block of the VPC (10.1.0.0/16)  
 
 
-### Do accomplish this without creating a new VPC:  
+### Accomplish this without creating a new VPC:  
 > 1) Create a peering connection between your default VPC and the RDS's VPC. 
 > 2) Configure Route Tables to have routes pointing to the other VPC CIDR Block and the peering connection.
 > 3) Configure security group of RDS to accept all TCP from the IP CIDR Block of the VPC (10.1.0.0/16)
