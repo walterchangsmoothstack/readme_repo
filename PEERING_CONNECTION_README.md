@@ -1,4 +1,4 @@
-# Set Up Peering Connection ReadMe
+# SET UP PEERING CONNECTION BETWEEN TWO VPC's
 
 ### GOAL: Allow connection to a private RDS in one VPC from a different VPC.
 
