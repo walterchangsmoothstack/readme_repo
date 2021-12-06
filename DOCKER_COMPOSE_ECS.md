@@ -37,4 +37,5 @@ Using the ```ecs-cli```, include a ecs-params.yml with desired service parameter
 ```  
 4). Create AWS Parameters and reference them in the following manner:
 > arn:aws:ssm:us-west-1:{*account_id*}:parameter/{*parameter_path*}  
+
 5). Edit EC2 security group to accept TCP for specific port.
