@@ -36,6 +36,6 @@ Use the ```eksctl``` community package to create EKS cluster.
 - TSL Secret: which is a secret provided for the default secret in the Ingress Controller
 
 *Personal Notes:*
-- host is required for the Ingress rules. Try using wildcard if no DNS is set up ex. "\*.com"
-- unsure about where to configure port routing or if all applications for the ingress rule must have the same route. expose port 80 on all applications for now
-- number of nodes must be sufficient for the number of pods running. https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt
+- Host is required for the Ingress rules. Try using wildcard if no DNS is set up ex. "\*.com"
+- Unsure about where to configure port routing or if all applications for the ingress rule must have the same route. Expose port 80 on all applications for now
+- Number of nodes must be sufficient for the number of pods running. https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt
