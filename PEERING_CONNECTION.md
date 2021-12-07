@@ -16,7 +16,7 @@ Docker compose in ECS context creates an ELB along with multiple other resources
 > 4) Create an Internet Gateway and attach it to your ecs VPC, and add it to that VPC's route table.  
 > 5) Create a Peering Connection with requester and accepters as your two VPC's (order should not matter)  
 > 6) Accept the Peering Connection Request.  
-> 7) Configure your Route Tables -> Choose the route table in which your RDS' private subnets are associated with and add another route: 10.1.0.0/16 -- peering connection we created.  
+> 7) Configure your Route Tables -> Choose the route table in which your RDS' **private** subnet(s) are associated with and add another route: 10.1.0.0/16 -- peering connection we created.  
 > 8) Do the same with your other VPC's route table (I thought it would work without doing this step but apparently not) 10.0.0.0/16 -- peering connection we created.  
 > 9) Configure security group of RDS to accept all TCP from the IP CIDR Block of the VPC (10.1.0.0/16)  
 
