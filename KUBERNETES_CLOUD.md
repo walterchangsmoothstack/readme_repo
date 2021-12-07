@@ -23,3 +23,19 @@ Use the ```eksctl``` community package to create EKS cluster.
 
 *Switch namespaces in Kubernetes*
 > kubectl config set-context --current --namespace=nginx-ingress  
+
+## Expose Service to the outside
+
+*Requirements:*  
+- Load Balancer service that acts as a gateway
+- Ingress Controller (pod) that is linked to the load balancer
+- Ingress Class for the Ingress Controller to function
+- Ingress: which routes the traffic to other services
+- ClusterRole & RBAC: which provides authorization to access resources in the Cluster
+- ConfigMap with proxy-protocol, real-ip-header, set-real-ip-from
+- TSL Secret: which is a secret provided for the default secret in the Ingress Controller
+
+*Personal Notes:*
+- host is required for the Ingress rules. Try using wildcard if no DNS is set up ex. "\*.com"
+- unsure about where to configure port routing or if all applications for the ingress rule must have the same route. expose port 80 on all applications for now
+- number of nodes must be sufficient for the number of pods running. https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt
