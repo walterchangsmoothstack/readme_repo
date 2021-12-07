@@ -26,6 +26,8 @@ Use the ```eksctl``` community package to create EKS cluster.
 
 ## Expose Service to the outside
 
+*Reference:* https://aws.amazon.com/premiumsupport/knowledge-center/eks-access-kubernetes-services/
+
 *Requirements:*  
 - Load Balancer service that acts as a gateway
 - Ingress Controller (pod) that is linked to the load balancer
@@ -33,6 +35,7 @@ Use the ```eksctl``` community package to create EKS cluster.
 - Ingress: which routes the traffic to other services
 - ClusterRole & RBAC: which provides authorization to access resources in the Cluster
 - ConfigMap with proxy-protocol, real-ip-header, set-real-ip-from
+
 - TSL Secret: which is a secret provided for the default secret in the Ingress Controller
 
 *Personal Notes:*
