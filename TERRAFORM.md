@@ -46,32 +46,55 @@ Set up an application (using Fargate) that uses an application load balancer and
 ```
 ## Cluster Module
 - Create a cluster, task definitions, and services
-- Example of task definition inside a for each mapping
+- Example of task definition inside a for each mapping:
 ```
-      resource "aws_ecs_task_definition" "task_definitions" {
-      for_each                 =  var.task_definitions
-      family                   = each.value["family"] 
-      task_role_arn            = aws_iam_role.api_ecs_task_execution_role.arn
-      execution_role_arn       = aws_iam_role.api_ecs_task_execution_role.arn
-     network_mode             = each.value["network_mode"]
-     cpu                      = each.value["cpu"]
-      memory                   = each.value["memory"]
-      requires_compatibilities = ["FARGATE"]
-      container_definitions    = jsonencode([
-     {
-        name      = each.value["container_name"]
-        image     = each.value["image"]
-        cpu       = 10
-        memory    = 512
-       network_mode             = each.value["network_mode"]
-        environment = var.environment
-        portMappings = [
-          {
-            containerPort = var.app_port
-            hostPort      = var.app_port
-          }
-          ]
-        },
-       ]) 
-    }
+        resource "aws_ecs_task_definition" "task_definitions" {
+        for_each                 =  var.task_definitions
+        family                   = each.value["family"] 
+        task_role_arn            = aws_iam_role.api_ecs_task_execution_role.arn
+        execution_role_arn       = aws_iam_role.api_ecs_task_execution_role.arn
+        network_mode             = each.value["network_mode"]
+        cpu                      = each.value["cpu"]
+        memory                   = each.value["memory"]
+        requires_compatibilities = ["FARGATE"]
+        container_definitions    = jsonencode([
+       {
+          name      = each.value["container_name"]
+          image     = each.value["image"]
+          cpu       = 10
+          memory    = 512
+         network_mode             = each.value["network_mode"]
+          environment = var.environment
+          portMappings = [
+            {
+              containerPort = var.app_port
+              hostPort      = var.app_port
+            }
+            ]
+          },
+         ]) 
+      }
+```
+- Example of a service inside a for each mapping:
+```    
+        resource "aws_ecs_service" "ecs_services" {
+        for_each          = var.ecs_services
+        name              = each.value["name"]
+        cluster           = aws_ecs_cluster.utopia-cluster.id
+        task_definition   = aws_ecs_task_definition.task_definitions[ each.value["task_name"] ].id
+        desired_count     = each.value["desired_count"]
+        launch_type       = "FARGATE"
 
+        network_configuration {
+          security_groups  = [aws_security_group.service_sg.id]
+          subnets          = var.public_subnet_ids
+          assign_public_ip = true
+        }
+
+        load_balancer {
+          target_group_arn = each.value["target_group_arn"]
+          container_name   = each.value["container_name"]
+          container_port   = var.app_port
+        }
+    }
+```
