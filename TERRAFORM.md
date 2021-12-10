@@ -20,25 +20,58 @@ Set up an application (using Fargate) that uses an application load balancer and
   - Allow all TCP from load balancer (to be created later) OR from anywhere.
 - Create a bastion host to connect to the database:
   - Create an EC2 instance with a **public** subnet from earlier specified.
+  - Create a security group for the bastion host to allow for SSH (port 22 from your IP)
   - Create a template file to inject shell scripts to create the MYSQL database upon launch.
-> #!/bin/bash
->
->yum update -y
->yum install mysql -y
->
-> mysql -h ${RDS_MYSQL_ENDPOINT} -u ${RDS_MYSQL_USER} -p${RDS_MYSQL_PASS} -D=${RDS_MYSQL_BASE} << EOF 
-> 
-> CREATE SCHEMA IF NOT EXISTS \`utopia\` DEFAULT CHARACTER SET utf8 ;
-> USE \`utopia\` ;
->
->--------------------------------------------------------
->-- Table \`utopia\`.\`airport\`
->--------------------------------------------------------
->CREATE TABLE IF NOT EXISTS \`utopia\`.\`airport\` (  
->  \`iata_id\` CHAR(3) NOT NULL,  
->  \`city\` VARCHAR(45) NOT NULL,  
->  PRIMARY KEY (\`iata_id\`),  
->  UNIQUE INDEX \`iata_id_UNIQUE\` (\`iata_id\` ASC) VISIBLE)  
->ENGINE = InnoDB;  
->EOF  
+```
+      #!/bin/bash
+
+      yum update -y
+      yum install mysql -y
+
+      mysql -h ${RDS_MYSQL_ENDPOINT} -u ${RDS_MYSQL_USER} -p${RDS_MYSQL_PASS} -D=${RDS_MYSQL_BASE} << EOF 
+ 
+      CREATE SCHEMA IF NOT EXISTS \`utopia\` DEFAULT CHARACTER SET utf8 ;
+      USE \`utopia\` ;
+
+      --------------------------------------------------------
+      -- Table \`utopia\`.\`airport\`
+      --------------------------------------------------------
+      CREATE TABLE IF NOT EXISTS \`utopia\`.\`airport\` (  
+        \`iata_id\` CHAR(3) NOT NULL,  
+        \`city\` VARCHAR(45) NOT NULL,  
+        PRIMARY KEY (\`iata_id\`),  
+        UNIQUE INDEX \`iata_id_UNIQUE\` (\`iata_id\` ASC) VISIBLE)  
+      ENGINE = InnoDB;  
+      EOF  
+```
+## Cluster Module
+- Create a cluster, task definitions, and services
+- Example of task definition inside a for each mapping
+```
+      resource "aws_ecs_task_definition" "task_definitions" {
+      for_each                 =  var.task_definitions
+      family                   = each.value["family"] 
+      task_role_arn            = aws_iam_role.api_ecs_task_execution_role.arn
+      execution_role_arn       = aws_iam_role.api_ecs_task_execution_role.arn
+     network_mode             = each.value["network_mode"]
+     cpu                      = each.value["cpu"]
+      memory                   = each.value["memory"]
+      requires_compatibilities = ["FARGATE"]
+      container_definitions    = jsonencode([
+     {
+        name      = each.value["container_name"]
+        image     = each.value["image"]
+        cpu       = 10
+        memory    = 512
+       network_mode             = each.value["network_mode"]
+        environment = var.environment
+        portMappings = [
+          {
+            containerPort = var.app_port
+            hostPort      = var.app_port
+          }
+          ]
+        },
+       ]) 
+    }
 
