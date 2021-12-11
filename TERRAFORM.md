@@ -11,7 +11,7 @@ Set up an application (using Fargate) that uses an application load balancer and
 - VPC with CIDR block 10.0.0.0/16
 - (4) Subnets with CIDR blocks 10.0.x.0/24
 - Private Subnets:
-  - Create a subnet group with both attached for later use in the database section
+  - Create a subnet group with two subnets attached to it (these will be designated as our private subnets)
 - Public Subnets:
   - Create an internet gateway and a route table
   - Attach the internet gateway to the route table and associate your designated public subnets to the route table  
