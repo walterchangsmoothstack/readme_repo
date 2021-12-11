@@ -3,6 +3,10 @@
 ### Goal:
 Set up an application (using Fargate) that uses an application load balancer and is connected to a private RDS instance. Possible reference https://section411.com/2019/07/hello-world/
 
+### Project Layout
+![image](https://user-images.githubusercontent.com/90656351/145691195-38e94c8b-90b9-4dfd-8a89-2c90ce05019a.png)
+
+
 ## Networking Module
 - VPC with CIDR block 10.0.0.0/16
 - (4) Subnets with CIDR blocks 10.0.x.0/24
@@ -104,4 +108,5 @@ Set up an application (using Fargate) that uses an application load balancer and
 ## Load Balancer Module
 - Create a load balancer, target groups, and listener rules.
 - Create a new security group for the load balancer that accepts outside traffic. (Unsure whether port 80 or all TCP is more appropriate)
-- Create an ```aws_alb_listener``` resource, and 
+- Create an ```aws_alb_listener``` resource, and a target group for each task defintion.
+- Create an ```aws_alb_listener```. This will route default traffic on port 80 to the target group referenced. Subsequent target groups will be attached to the listener using ```aws_lb_listener_rule``` resources.
