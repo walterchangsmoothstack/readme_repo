@@ -1,7 +1,7 @@
 # TERRAFORM
 
 ### Goal:
-Set up an application (using Fargate) that uses an application load balancer and is connected to a private RDS instance.
+Set up an application (using Fargate) that uses an application load balancer and is connected to a private RDS instance. Possible reference https://section411.com/2019/07/hello-world/
 
 ## Networking Module
 - VPC with CIDR block 10.0.0.0/16
@@ -46,6 +46,7 @@ Set up an application (using Fargate) that uses an application load balancer and
 ```
 ## Cluster Module
 - Create a cluster, task definitions, and services
+- Create an ecsTaskExecutionRole for the task definition to function
 - Example of task definition inside a for each mapping:
 ```
         resource "aws_ecs_task_definition" "task_definitions" {
@@ -98,3 +99,9 @@ Set up an application (using Fargate) that uses an application load balancer and
         }
     }
 ```
+- Referenced resources such as container uri's will come from the ECR (create a data object that depends on the given repository). Target groups will come from the Load Balancer Module speaking of which...
+
+## Load Balancer Module
+- Create a load balancer, target groups, and listener rules.
+- Create a new security group for the load balancer that accepts outside traffic. (Unsure whether port 80 or all TCP is more appropriate)
+- Create an ```aws_alb_listener``` resource, and 
