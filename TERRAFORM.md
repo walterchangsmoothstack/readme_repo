@@ -14,7 +14,7 @@ Set up an application (using Fargate) that uses an application load balancer and
   - Create a subnet group with two subnets attached to it (these will be designated as our private subnets)
 - Public Subnets:
   - Create an internet gateway and a route table
-  - Attach the internet gateway to the route table and associate your designated public subnets to the route table  
+  - Attach the internet gateway to the route table and associate your other two subnets (public subnets) with the route table.  
   - **Set auto-assign IPv4 addresses on subnets and enable DNS hostnames on VPC**
 
 ## Database Module
