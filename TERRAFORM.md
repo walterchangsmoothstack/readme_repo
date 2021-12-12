@@ -107,6 +107,6 @@ Set up an application (using Fargate) that uses an application load balancer and
 
 ## Load Balancer Module
 - Create a load balancer, target groups, and listener rules.
-- Create a new security group for the load balancer that accepts outside traffic. (Unsure whether port 80 or all TCP is more appropriate)
+- Create a new security group for the load balancer that accepts outside traffic.
 - Create an ```aws_alb_listener``` resource, and a target group for each task defintion.
 - Create an ```aws_alb_listener```. This will route default traffic on port 80 to the target group referenced. Subsequent target groups will be attached to the listener using ```aws_lb_listener_rule``` resources.
