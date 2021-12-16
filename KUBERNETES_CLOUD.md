@@ -13,7 +13,7 @@ Use the ```eksctl``` community package to create EKS cluster.
 
 ## Using eksctl  
 *Create a CloudFormation Stack that provisions everything required to run kubernetes resources in a cloud cluster.*
-> eksctl create cluster --name myeks-cluster --version 1.21 --region us-west-1 --nodegroup-name linux-nodes --node-type t2.micro --nodes 2  
+> eksctl create cluster --name myeks-cluster --version 1.21 --region us-west-1 --nodegroup-name linux-nodes --node-type t2.micro --nodes 2  --vpc-public-subnets=<public_subnet1,public_subnet2> --vpc-private-subnets=<private_subnet1,private_subnet2>
 
 *Delete the cluster*
 > ekstctl delete cluster --name myeks-cluster  
