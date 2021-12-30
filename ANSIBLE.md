@@ -53,4 +53,18 @@ For local, I am storing the AWS credentials as global variables. If using an EC2
         name: waltchang97/utopia-users-microservice
 ```
 
+### Notes for using Ansible locally
+1) To install docker on the remote server:  
+  - install docker ``` yum install docker -y``` 
+  - install docker SDK for python  
+  ```   
+  - name: Install Docker Module for Python
+    pip:
+      name: docker
+  ```
+ 2) If there are issues with pip, make sure that the correct python interpreter is being used. Set ```interpreter_python=/usr/bin/python3``` in .ansible.cfg
+ 3) If there are issues with docker, try using the community version:  
+  > ansible-galaxy collection install community.docker
+  *Though this is not likely the problem if referencing the docker_container module instead of the community.docker.docker_container module*
+
 
