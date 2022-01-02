@@ -53,6 +53,31 @@ For local, I am storing the AWS credentials as global variables. If using an EC2
         name: waltchang97/utopia-users-microservice
 ```
 
+### Starting Instances
+
+1) Start the instances using the ec2 module:
+```
+  - name: Start Users Instance
+    ec2:
+      region: "{{ region }}"
+      instance_tags:
+          Name: users_microservice
+      state: running
+    register: users
+```
+2) Wait for SSH to be available and then retrieve the instance's public IP address
+```
+  - name: Wait for Users SSH to come up
+    delegate_to: "{{ item.public_dns_name }}"
+    wait_for_connection:
+      delay: 60
+      timeout: 320
+    loop: "{{ users.instances }}"
+```
+3) Add the instance to a host group *(Be careful not to add any terminated/stopped instances when filtering by tag. Use the instance-state-running attribute to only add desired instances)* and start the docker service and then the container. To avoid running a container that is already up use:
+>       when: users_container.exists and users_container.container['State']['Running'] == false
+
+
 ### Notes for using Ansible locally
 1) To install docker on the remote server:  
   - install docker ``` yum install docker -y``` 
@@ -66,8 +91,7 @@ For local, I am storing the AWS credentials as global variables. If using an EC2
  3) If there are issues with docker, try using the community version. *Though this is not likely the problem if referencing the docker_container module instead of the community.docker.docker_container module*    
        > ansible-galaxy collection install community.docker  
  4) For secrets, use the amazon.aws.aws_secret module:  
-    ```"{{ lookup('amazon.aws.aws_secret', 'utopia-secrets.SECRET_KEY', region=region, aws_access_key=aws_access_key, aws_secret_key=aws_secret_key, nested=true) }}"```
-
+    ```"{{ lookup('amazon.aws.aws_secret', 'utopia-secrets.SECRET_KEY', region=region, aws_access_key=aws_access_key, aws_secret_key=aws_secret_key, nested=true) }}"```  
   
 
 
