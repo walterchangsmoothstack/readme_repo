@@ -74,9 +74,8 @@ For local, I am storing the AWS credentials as global variables. If using an EC2
       timeout: 320
     loop: "{{ users.instances }}"
 ```
-3) Add the instance to a host group *(Be careful not to add any terminated/stopped instances when filtering by tag. Use the instance-state-running attribute to only add desired instances)* and start the docker service and then the container. To avoid running a container that is already up use:
+3) Add the instance to a host group *(Be careful not to add any terminated/stopped instances when filtering by tag. Use the instance-state-running attribute to add only desired instances)* and start the docker service and then the container. To avoid running a container that is already up use:
 >       when: users_container.exists and users_container.container['State']['Running'] == false
-
 
 ### Notes for using Ansible locally
 1) To install docker on the remote server:  
