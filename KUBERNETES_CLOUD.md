@@ -19,7 +19,7 @@ Use the ```eksctl``` community package to create EKS cluster.
 > ekstctl delete cluster --name myeks-cluster  
 
 *Switch to EKS Cluster*
-> aws eks --region us-west-1 update-kubeconfig --name utopia-cluster  
+> aws eks --region us-west-2 update-kubeconfig --name cluster-WC  
 
 *Switch namespaces in Kubernetes*
 > kubectl config set-context --current --namespace=nginx-ingress  
