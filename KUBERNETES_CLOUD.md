@@ -42,3 +42,8 @@ Use the ```eksctl``` community package to create EKS cluster.
 - Host is required for the Ingress rules. Try using wildcard if no DNS is set up ex. "\*.com"
 - Unsure about where to configure port routing or if all applications for the ingress rule must have the same route. Expose port 80 on all applications for now
 - Number of nodes must be sufficient for the number of pods running. https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt
+
+
+## Using Fargate and existing subnets
+
+## [Using the Kubernetes Secrets Store CSI Driver](https://docs.aws.amazon.com/secretsmanager/latest/userguide/integrating_csi_driver.html)
