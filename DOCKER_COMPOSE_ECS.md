@@ -1,7 +1,7 @@
 # DOCKER COMPOSE ECS CONTEXT
 
 Without using the ```ecs-cli```, run docker compose in the root directory of your docker compose file after switching to the ecs context.
-> docker create ecs myecs
+> docker context create ecs myecs  
 > docker context use myecs
 
 
